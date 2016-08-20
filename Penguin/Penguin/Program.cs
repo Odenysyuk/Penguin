@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Client;
+using System.Xml;
 
 namespace Penguin
 {
@@ -15,7 +16,47 @@ namespace Penguin
             Client.Name = "Olena";
             Console.WriteLine(Client.Name);
         }
+
+        static void ParseDictionary()
+        {
+            XmlTextReader reader = new XmlTextReader("dictionary.xdxf");
+            reader.WhitespaceHandling = WhitespaceHandling.None;
+            while (reader.Read())
+            {
+                if (reader.Name == "ar" && reader.NodeType == XmlNodeType.Element)
+                {
+                    Boolean translation = false;
+                    while (reader.Read() && reader.Name != "ar")
+                    {
+
+                        if (reader.NodeType == XmlNodeType.Text)
+                        {
+                            string temp = reader.Value;
+                            if (translation == false)
+                            {
+                                Console.WriteLine("Eng :{0}", temp);
+                                translation = true;
+                            }
+                            else
+                            {
+                                temp = temp.Replace("\n", "");
+                                Console.WriteLine("UKR :{0}", temp);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+
+        }
+
     }
+
 }
 
 namespace Client
@@ -101,11 +142,11 @@ namespace Client
                     {
                         AmountWordsOfDay = UInt32.Parse(Console.ReadLine());
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine("Incorrect choice. Please, try again!!!");
                         UpdateUser();
-                    }        
+                    }
                     break;
                 case "6":
                     Console.WriteLine("Enter new date of birthday:");
@@ -139,4 +180,11 @@ namespace Client
         }
 
     }
+
+
+}
+
+namespace Server
+{
+
 }
