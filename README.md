@@ -16,4 +16,5 @@ Develop program to learn English everyday. There're users, English_Ukraine vocab
 
 #What is doing?
 1. Parse xdxf in program;
-2. 
+2. Update dictionary in server MongoDB;
+3. 
