@@ -776,7 +776,7 @@ namespace Server
 
         static public DictionaryEngUkr FindWordByEng(String word)
         {
-            var bs = col_dictionary.Find(new BsonDocument("_id", word)).ToList();
+            var bs = col_dictionary.Find(new BsonDocument("english", word)).ToList();
             if (bs.Count == 1)
                 return bs.First();
             return null;
