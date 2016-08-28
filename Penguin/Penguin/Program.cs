@@ -24,7 +24,7 @@ namespace Penguin
 
         static void Main(string[] args)
         {
-
+            Console.OutputEncoding = Encoding.UTF8;
             ServerClien.InstallServerClien();
             User.initialization();
             ServerClien.UpdateDictionaryEU().Wait();
@@ -387,7 +387,7 @@ namespace Penguin
             if (Statistic.ContainsKey(thisDay) == false)
                 Statistic.Add(thisDay, LearnedWords.Count());
             else
-                Statistic[thisDay] += LearnedWords.Count();
+                Statistic[thisDay] = LearnedWords.Count();
 
             DoEvent(this);
 
@@ -753,14 +753,13 @@ namespace Server
 
         static public List<DictionaryEngUkr>  AddListWords (List<DictionaryEngUkr>  LearnedWords, UInt32 AmountWordsOfDay)
         {
-
-
             var builder = Builders<DictionaryEngUkr>.Filter;
+            int number = new Random().Next(1, 50000);
 
             if (LearnedWords == null)
             {
                 var filter_ = new BsonDocument();
-                return col_dictionary.Find(filter_).Limit((int)AmountWordsOfDay).ToList(); //.Limit((int)AmountWordsOfDay).ToList();
+                return col_dictionary.Find(filter_).Skip(number).Limit((int)AmountWordsOfDay).ToList(); //.Limit((int)AmountWordsOfDay).ToList();
             }
 
 
@@ -772,7 +771,7 @@ namespace Server
             }
            var filter = builder.Nin("_id", List);
 
-            return col_dictionary.Find(filter).Limit((int)AmountWordsOfDay).ToList();
+            return col_dictionary.Find(filter).Skip(number).Limit((int)AmountWordsOfDay).ToList();
         }
 
         static public DictionaryEngUkr FindWordByEng(String word)
